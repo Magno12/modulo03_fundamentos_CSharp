@@ -4,6 +4,16 @@ using static System.Console;
 public class Program
 {
 
+    public static void Demo04()
+    {
+        string nome = "Magno";
+
+        TrocarNome(nome, "Magno Batista");
+
+        WriteLine($@"O novo nome é {nome}");
+        //a string e um referene type porem tem um comportamento diferente, como de value types
+    }
+
 
     //aula 04 values types
     /*  static int Adicionar20(int x)
@@ -21,13 +31,30 @@ public class Program
 
     //Aula 05 reference types na pratica
 
-    public static void _AlterarNome(Pessoa pessoa, string nome)
+    public static void Demo03()
     {
-        pessoa.Nome = nome;
+        StructPessoa p1 = new StructPessoa()
+        {
+            Documento = "1234",
+            Idade = 03,
+            Nome = "Magno"
+        };
+
+        var p2 = p1;
+
+        p1 = TrocarNome(p1, "Luiz Felipe");
+
+        WriteLine($@"
+            Nome do p1: {p1.Nome}
+
+            Nome do p2: {p2.Nome}
+        ");
+
     }
 
-    public static void Main()
+    public static void Demo02()
     {
+        //
         Pessoa p1 = new Pessoa();
         p1.Nome = "Magno";
         p1.Idade = 27;
@@ -37,10 +64,57 @@ public class Program
         WriteLine("Nome: " + p1.Nome + " Idade: " + p1.Idade + " Documento: " + p1.Documento);
         WriteLine("-----");
 
-        _AlterarNome(p1, "Magno Batista Rocha");
+        /* 
+        //recebeu uma referencia de p1 , se alterar valor de p1 a vera alteracao na p2
+        Pessoa p2 = p1; 
+         */
+
+        Pessoa p2 = p1.Clone();
+
+        TrocarNome(p1, "Magno Batista Rocha");
+
         WriteLine("Alterando Nome");
-        WriteLine($"Nome: {p1.Nome}, Idade: {p1.Idade}, Documento ${p1.Documento} ");
+
+        WriteLine($@"
+        Nome p1: {p1.Nome} 
+        Nome p2: {p2.Nome}
+        ");
 
     }
+    public static void TrocarNome(Pessoa pessoa, string nome)
+    {
+        pessoa.Nome = nome;
+    }
 
-}   
+    static StructPessoa TrocarNome(StructPessoa p1, string nomeNovo)
+    {
+        StructPessoa p = new StructPessoa();
+        p.Nome = nomeNovo;
+        p.Documento = p1.Documento;
+        p.Idade = p1.Idade;
+        return p;
+    }
+
+    static void TrocarNome(string nome, string nomeNovo)
+    {
+        nome = nomeNovo;
+    }
+
+    static void MudarParaImpar(int[] pares)
+    {
+        for (int i = 0; i < pares.Length; i++)
+        {
+            pares[i] = pares[i] + 1;
+        }
+    }
+    public static void Main()
+    {
+        //exemplo de referene type
+        int[] pares = new int[] { 0, 2, 4, 6, 8 };
+
+        MudarParaImpar(pares);
+
+        WriteLine($"Os Impares : {string.Join(" , ", pares)} ");
+    }
+
+}
