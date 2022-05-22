@@ -4,7 +4,39 @@ using static System.Console;
 public class Program
 {
 
-    public static void Demo04()
+    static void Demo07()
+    {
+
+    }
+
+    static void Demo06()
+    {
+        // procurar posiçao do numero digitado
+        int[] numeros = new int[] { 0, 2, 4, 6, 8 };
+        WriteLine($"Digite o numero que gostaria de encontrar");
+        var numero = int.Parse(ReadLine());
+
+        var idxEncontrado = EncontrarNumero(numeros, numero);
+        if (idxEncontrado >= 0)
+        {
+            WriteLine($"O numero Digitado esta na posicao {idxEncontrado}");
+        }
+        else
+        {
+            WriteLine($"O numero {numero} não encontrado");
+        }
+    }
+
+    static void Demo05()
+    {
+        //exemplo de referene type
+        int[] pares = new int[] { 0, 2, 4, 6, 8 };
+
+        MudarParaImpar(pares);
+
+        WriteLine($"Os Impares : {string.Join(" , ", pares)} ");
+    }
+    static void Demo04()
     {
         string nome = "Magno";
 
@@ -107,14 +139,55 @@ public class Program
             pares[i] = pares[i] + 1;
         }
     }
+
+    static int EncontrarNumero(int[] numeros, int numero)
+    {
+        for (int i = 0; i < numeros.Length; i++)
+        {
+            if (numeros[i] == numero)
+                return i;
+        }
+        return -1;
+    }
+
+    static Pessoa EncontrarPessoa(List<Pessoa> listaPessoas, string nomeBuscar)
+    {
+        var p = new Pessoa();
+        foreach (var item in listaPessoas)
+        {
+            if (item.Nome == nomeBuscar)
+                p = item;
+        }
+        return p;
+    }
     public static void Main()
     {
-        //exemplo de referene type
-        int[] pares = new int[] { 0, 2, 4, 6, 8 };
+        List<Pessoa> pessoas = new List<Pessoa>()
+        {
+            new Pessoa(){Nome = "Magno", Idade = 27},
+            new Pessoa(){Nome = "Ana", Idade = 26},
+            new Pessoa(){Nome = "Joao Miguel", Idade = 4},
+            new Pessoa(){Nome = "Luiz Felipe", Idade = 3}
 
-        MudarParaImpar(pares);
+        };
 
-        WriteLine($"Os Impares : {string.Join(" , ", pares)} ");
+        WriteLine("Digite o nome Para Procurar");
+        var nomeProcurar = ReadLine();
+
+        if (nomeProcurar != null)
+        {
+            var resul = EncontrarPessoa(pessoas, nomeProcurar);
+
+            WriteLine($@" Pessoa encontrada :
+            Nome : {resul.Nome}
+            Idade : {resul.Idade}
+            ");
+        }
+        else
+        {
+            WriteLine(" Pessoa Não encontrada :");
+        }
+
     }
 
 }
